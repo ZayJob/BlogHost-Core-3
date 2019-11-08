@@ -1,0 +1,12 @@
+﻿@model IEnumerable<BlogHost.Data.Models.Publication>
+@{
+    ViewData["Title"] = "AllPosts";
+}
+
+<h1>AllPosts</h1>
+@foreach(var post in Model)
+{
+    <div>
+        @post.PublicationName
+    </div>
+}

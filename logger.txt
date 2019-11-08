@@ -1,0 +1,7 @@
+Request starting HTTP/2.0 GET https://localhost:44307/lib/jquery/dist/jquery.min.js  
+Request starting HTTP/2.0 GET https://localhost:44307/  
+Executing endpoint 'BlogHost.Controllers.HomeController.Index (BlogHost)'
+Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller BlogHost.Controllers.HomeController (BlogHost).
+Executing ViewResult, running view Index.
+Executed ViewResult - view Index executed in 190.5446ms.
+Executed action BlogHost.Controllers.HomeController.Index (BlogHost) in 234.03740000000002ms
