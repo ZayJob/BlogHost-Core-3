@@ -20,12 +20,16 @@ namespace BlogHost.Data.Repositories
         {
             _appDbContext.Publications.Add(publ);
             _appDbContext.SaveChanges();
-            int a = _appDbContext.Publications.Count();
         }
 
         public IEnumerable<Publication> AllPost()
         {
             return _appDbContext.Publications.ToList();
+        }
+
+        public IEnumerable<Publication> AllThemsPost(int idTopic)
+        {
+            return _appDbContext.Publications.Where(x => x.TopicId == idTopic).ToList();
         }
     }
 }

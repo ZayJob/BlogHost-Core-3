@@ -7,6 +7,7 @@ using BlogHost.Data;
 using BlogHost.Data.Interfaces;
 using BlogHost.Data.Models;
 using BlogHost.Data.Repositories;
+using BlogHost.Initializer;
 using BlogHost.Logger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -59,6 +60,7 @@ namespace BlogHost
 
             services.AddTransient<IUser, UserRepository>();
             services.AddTransient<IPublication, PublicationRepository>();
+            services.AddTransient<ITopic, TopicRepository>();
 
             services.AddControllersWithViews();
         }

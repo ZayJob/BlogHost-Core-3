@@ -31,7 +31,7 @@ namespace BlogHost.Logger
             {
                 lock (_lock)
                 {
-                    //File.AppendAllTextAsync(filePath, formatter(state, exception) + Environment.NewLine);
+                    //File.AppendAllText(filePath, formatter(state, exception) + Environment.NewLine);
                 }
             }
         }

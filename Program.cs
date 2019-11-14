@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BlogHost.Data;
 using BlogHost.Data.Models;
 using BlogHost.Initializer;
 using Microsoft.AspNetCore;
@@ -27,12 +28,17 @@ namespace BlogHost
                 {
                     var userManager = services.GetRequiredService<UserManager<User>>();
                     var rolesManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+                    var context = services.GetRequiredService<AppDBContext>();
                     await RoleInitializer.InitializeAsync(userManager, rolesManager);
+                   
+                    DBInitializer.Initial(context);
+
                 }
                 catch (Exception ex)
                 {
                     var logger = services.GetRequiredService<ILogger<Program>>();
                     logger.LogError(ex, "An error occurred while seeding the database.");
+
                 }
             }
 

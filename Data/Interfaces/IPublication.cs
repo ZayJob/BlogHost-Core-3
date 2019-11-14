@@ -11,5 +11,7 @@ namespace BlogHost.Data.Interfaces
         public void AddPublicationDB(Publication publ);
 
         public IEnumerable<Publication> AllPost();
+
+        public IEnumerable<Publication> AllThemsPost(int idTopic);
     }
 }
