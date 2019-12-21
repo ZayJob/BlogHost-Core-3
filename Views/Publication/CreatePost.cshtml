@@ -6,7 +6,7 @@
 
 <div class="text-center container col-4">
     <h1>Create post</h1>
-    <form method="post" asp-controller="Publication" asp-action="CreatePost">
+    <form method="post" asp-controller="Publication" asp-action="CreatePost" enctype="multipart/form-data">
         <div asp-validation-summary="ModelOnly"></div>
         <div>
             <label asp-for="PublicationName"></label><br />
@@ -20,13 +20,14 @@
         </div>
         <div>
             <label asp-for="PublicationText"></label><br />
-            <input asp-for="PublicationText" />
+            <textarea asp-for="PublicationText" cols="40" rows="3"></textarea>
             <span asp-validation-for="PublicationText"></span>
         </div>
-        <div>
-            <label asp-for="ImgUrlPublication"></label><br />
-            <input asp-for="ImgUrlPublication" />
-            <span asp-validation-for="ImgUrlPublication"></span>
+        <div class="form-group">
+            <p>
+                <label>Фото</label>
+                <input name="AvatarPost" type="file" class="form-control" />
+            </p>
         </div>
         <div>
             <label asp-for="isFavorite"></label><br />

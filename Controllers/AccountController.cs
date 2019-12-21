@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.IO;
+using System.Threading.Tasks;
 using BlogHost.Data.Models;
 using BlogHost.services;
 using BlogHost.ViewModels;
@@ -30,8 +31,16 @@ namespace BlogHost.Controllers
         {
             if (ModelState.IsValid)
             {
+                byte[] imageData = null;
+                // считываем переданный файл в массив байтов
+                using (var binaryReader = new BinaryReader(model.Avatar.OpenReadStream()))
+                {
+                    imageData = binaryReader.ReadBytes((int)model.Avatar.Length);
+                }
+
                 User user = new User { Email = model.Email, UserName = model.UserName, Year = model.Year, Name = model.Name,
-                    SecondName = model.SecondName, Gender = model.Gender, DateRegistration = System.DateTime.Now };
+                    SecondName = model.SecondName, Gender = model.Gender, DateRegistration = System.DateTime.Now, Avatar = imageData
+                };
                 // добавляем пользователя
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)

@@ -25,5 +25,10 @@ namespace BlogHost.Data.Repositories
         {
             return _appDbContext.Topics.FirstOrDefault(x => x.NameTopic == nameTopic);
         }
+        public string GetTopicName(int Id)
+        {
+            return _appDbContext.Topics.FirstOrDefault(x => x.Id == Id).NameTopic;
+        }
+
     }
 }

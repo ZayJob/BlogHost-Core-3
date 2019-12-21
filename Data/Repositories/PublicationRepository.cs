@@ -31,5 +31,27 @@ namespace BlogHost.Data.Repositories
         {
             return _appDbContext.Publications.Where(x => x.TopicId == idTopic).ToList();
         }
+
+        public IEnumerable<Publication> MyPost(User user)
+        {
+            return _appDbContext.Publications.Where(x => x.User.Id == user.Id).ToList();
+        }
+
+        public Publication GetPostDB(int id)
+        {
+            return _appDbContext.Publications.Where(x => x.Id == id).FirstOrDefault();
+        }
+
+        public void UpdatePost(Publication post)
+        {
+            _appDbContext.Publications.Update(post);
+            _appDbContext.SaveChanges();
+        }
+
+        public void DeletePost(Publication post)
+        {
+            _appDbContext.Publications.Remove(post);
+            _appDbContext.SaveChanges();
+        }
     }
 }

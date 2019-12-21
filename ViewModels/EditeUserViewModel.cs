@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,6 +15,5 @@ namespace BlogHost.ViewModels
         public string Gender { get; set; }
         public string Profession { get; set; }
         public string Email { get; set; }
-
     }
 }

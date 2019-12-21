@@ -1,0 +1,11 @@
+﻿@model IEnumerable<BlogHost.Data.Models.Comment>
+
+@{
+    ViewData["Title"] = "AllComments";
+}
+
+<h1>AllComments</h1>
+@foreach (var comment in Model)
+{
+    <p>@comment.CommentText</p>
+}

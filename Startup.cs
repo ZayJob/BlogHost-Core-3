@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using BlogHost.BackgroundService;
 using BlogHost.Data;
 using BlogHost.Data.Interfaces;
 using BlogHost.Data.Models;
@@ -12,6 +13,7 @@ using BlogHost.Logger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +21,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using SignalRApp;
 
 namespace BlogHost
 {
@@ -61,12 +64,32 @@ namespace BlogHost
             services.AddTransient<IUser, UserRepository>();
             services.AddTransient<IPublication, PublicationRepository>();
             services.AddTransient<ITopic, TopicRepository>();
+            services.AddTransient<IComment, CommentRepository>();
 
             services.AddControllersWithViews();
+
+            services.AddAuthentication()
+            .AddGoogle(options =>
+            {
+                options.ClientId = Configuration["Authentication:Google:ClientId"];
+                options.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+            });
+
+            services.AddSignalR();
+
+            services.AddHostedService<TimedHostedService>();
+
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders =
+                    ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+            });
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory, IConfiguration Configuration)
         {
+            app.UseForwardedHeaders();
+
             app.UseDeveloperExceptionPage();
             app.UseStatusCodePages();
             app.UseStaticFiles();
@@ -80,14 +103,21 @@ namespace BlogHost
             app.UseAuthorization();
             app.UseAuthentication();
 
-            loggerFactory.AddFile(Path.Combine(Directory.GetCurrentDirectory(), "logger.txt"));
+            loggerFactory.AddFile(Path.Combine(Directory.GetCurrentDirectory(), Configuration["FileNameLogger:Name"]));
             var logger = loggerFactory.CreateLogger("FileLogger");
+
+            app.Use((context, next) =>
+            {
+                context.Request.Scheme = "https";
+                return next();
+            });
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapHub<ChatHub>("/Chat");
             });
         }
     }

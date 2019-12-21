@@ -1,0 +1,10 @@
+{
+  "Admin": {
+    "mail": "admin@admin.ru",
+    "password": "admin123"
+  },
+  "Moder": {
+    "mail": "moder@moder.ru",
+    "password": "moder123"
+  }
+}

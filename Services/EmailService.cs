@@ -1,4 +1,5 @@
 ﻿using MailKit.Net.Smtp;
+using Microsoft.Extensions.Configuration;
 using MimeKit;
 using System;
 using System.Collections.Generic;
@@ -9,11 +10,19 @@ namespace BlogHost.services
 {
     public class EmailService
     {
+        public EmailService()
+        {
+            var builder = new ConfigurationBuilder().AddJsonFile("mailconfig.json");
+
+            EmailConfiguration = builder.Build();
+        }
+        public IConfiguration EmailConfiguration { get; set; }
+
         public async Task SendEmailAsync(string email, string subject, string message)
         {
             var emailMessage = new MimeMessage();
 
-            emailMessage.From.Add(new MailboxAddress("Администрация сайта", "zaybyst@mail.ru"));
+            emailMessage.From.Add(new MailboxAddress("Администрация сайта", EmailConfiguration["Email:mail"]));
             emailMessage.To.Add(new MailboxAddress("", email));
             emailMessage.Subject = subject;
             emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
@@ -24,7 +33,7 @@ namespace BlogHost.services
             using (var client = new SmtpClient())
             {
                 await client.ConnectAsync("smtp.mail.ru", 25, false);
-                await client.AuthenticateAsync("zaybyst@mail.ru", "1676230dev");
+                await client.AuthenticateAsync(EmailConfiguration["Email:mail"], EmailConfiguration["Email:password"]);
                 await client.SendAsync(emailMessage);
 
                 await client.DisconnectAsync(true);

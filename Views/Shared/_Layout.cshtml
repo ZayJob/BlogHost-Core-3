@@ -6,6 +6,7 @@
     <title>@ViewData["Title"] - BlogHost</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+
 </head>
 <body>
     <div class="container">
@@ -15,9 +16,11 @@
                     @if (User.Identity.IsAuthenticated)
                     {
                         <a class="text-muted" asp-controller="Users" asp-action="Profile">Profile</a>
-                        <a class="text-muted" asp-controller="" asp-action="">My posts</a>
+                        <a class="text-muted" asp-controller="Publication" asp-action="MyPosts">My posts</a>
                         <a class="text-muted" asp-controller="Publication" asp-action="AllPosts">All posts</a>
                         <a class="text-muted" asp-controller="Publication" asp-action="CreatePost">Create posts</a>
+                        <a class="text-muted" asp-controller="Chat" asp-action="Chat">Chat</a>
+
 
                         if (User.IsInRole("admin") || User.IsInRole("moder"))
                         {
@@ -30,6 +33,7 @@
                         <a class="text-muted" asp-controller="Account" asp-action="Register">My posts</a>
                         <a class="text-muted" asp-controller="Account" asp-action="Register">All posts</a>
                         <a class="text-muted" asp-controller="Account" asp-action="Register">Create posts</a>
+                        <a class="text-muted" asp-controller="Account" asp-action="Register">Chat</a>
                     }
                 </div>
                 <div class="col-4 text-center">
@@ -41,12 +45,14 @@
                     </a>
                     <div>
                         @if (User.Identity.IsAuthenticated)
-                        {   
+                        {
 
                             <p>@User.Identity.Name</p>
                             <a class="btn btn-sm btn-outline-secondary" asp-controller="Account" asp-action="LogOff">LogOff</a>
 
-                        } else {
+                        }
+                        else
+                        {
                             <a class="btn btn-sm btn-outline-secondary" asp-controller="Account" asp-action="Login">Sign in</a>
                             <a class="btn btn-sm btn-outline-secondary" asp-controller="Account" asp-action="Register">Sign up</a>
                         }
@@ -56,18 +62,38 @@
         </header>
         <div class="nav-scroller py-1 mb-2">
             <nav class="nav d-flex justify-content-between">
-                <a class="p-2 text-muted" asp-controller="Publication" asp-action="ThemsPost" asp-route-nameTopic="World">World</a>
-                <a class="p-2 text-muted" asp-controller="Publication" asp-action="ThemsPost" asp-route-nameTopic="U.S.">U.S.</a>
-                <a class="p-2 text-muted" asp-controller="Publication" asp-action="ThemsPost" asp-route-nameTopic="Technology">Technology</a>
-                <a class="p-2 text-muted" asp-controller="Publication" asp-action="ThemsPost" asp-route-nameTopic="Design">Design</a>
-                <a class="p-2 text-muted" asp-controller="Publication" asp-action="ThemsPost" asp-route-nameTopic="Culture">Culture</a>
-                <a class="p-2 text-muted" asp-controller="Publication" asp-action="ThemsPost" asp-route-nameTopic="Business">Business</a>
-                <a class="p-2 text-muted" asp-controller="Publication" asp-action="ThemsPost" asp-route-nameTopic="Politics">Politics</a>
-                <a class="p-2 text-muted" asp-controller="Publication" asp-action="ThemsPost" asp-route-nameTopic="Opinion">Opinion</a>
-                <a class="p-2 text-muted" asp-controller="Publication" asp-action="ThemsPost" asp-route-nameTopic="Science">Science</a>
-                <a class="p-2 text-muted" asp-controller="Publication" asp-action="ThemsPost" asp-route-nameTopic="Health">Health</a>
-                <a class="p-2 text-muted" asp-controller="Publication" asp-action="ThemsPost" asp-route-nameTopic="Style">Style</a>
-                <a class="p-2 text-muted" asp-controller="Publication" asp-action="ThemsPost" asp-route-nameTopic="Travel">Travel</a>
+                @if (User.Identity.IsAuthenticated)
+                {
+
+                    <a class="p-2 text-muted" asp-controller="Publication" asp-action="ThemsPost" asp-route-nameTopic="World">World</a>
+                    <a class="p-2 text-muted" asp-controller="Publication" asp-action="ThemsPost" asp-route-nameTopic="U.S.">U.S.</a>
+                    <a class="p-2 text-muted" asp-controller="Publication" asp-action="ThemsPost" asp-route-nameTopic="Technology">Technology</a>
+                    <a class="p-2 text-muted" asp-controller="Publication" asp-action="ThemsPost" asp-route-nameTopic="Design">Design</a>
+                    <a class="p-2 text-muted" asp-controller="Publication" asp-action="ThemsPost" asp-route-nameTopic="Culture">Culture</a>
+                    <a class="p-2 text-muted" asp-controller="Publication" asp-action="ThemsPost" asp-route-nameTopic="Business">Business</a>
+                    <a class="p-2 text-muted" asp-controller="Publication" asp-action="ThemsPost" asp-route-nameTopic="Politics">Politics</a>
+                    <a class="p-2 text-muted" asp-controller="Publication" asp-action="ThemsPost" asp-route-nameTopic="Opinion">Opinion</a>
+                    <a class="p-2 text-muted" asp-controller="Publication" asp-action="ThemsPost" asp-route-nameTopic="Science">Science</a>
+                    <a class="p-2 text-muted" asp-controller="Publication" asp-action="ThemsPost" asp-route-nameTopic="Health">Health</a>
+                    <a class="p-2 text-muted" asp-controller="Publication" asp-action="ThemsPost" asp-route-nameTopic="Style">Style</a>
+                    <a class="p-2 text-muted" asp-controller="Publication" asp-action="ThemsPost" asp-route-nameTopic="Travel">Travel</a>
+
+                }
+                else
+                {
+                    <a class="p-2 text-muted" asp-controller="Account" asp-action="Register" asp-route-nameTopic="World">World</a>
+                    <a class="p-2 text-muted" asp-controller="Account" asp-action="Register" asp-route-nameTopic="U.S.">U.S.</a>
+                    <a class="p-2 text-muted" asp-controller="Account" asp-action="Register" asp-route-nameTopic="Technology">Technology</a>
+                    <a class="p-2 text-muted" asp-controller="Account" asp-action="Register" asp-route-nameTopic="Design">Design</a>
+                    <a class="p-2 text-muted" asp-controller="Account" asp-action="Register" asp-route-nameTopic="Culture">Culture</a>
+                    <a class="p-2 text-muted" asp-controller="Account" asp-action="Register" asp-route-nameTopic="Business">Business</a>
+                    <a class="p-2 text-muted" asp-controller="Account" asp-action="Register" asp-route-nameTopic="Politics">Politics</a>
+                    <a class="p-2 text-muted" asp-controller="Account" asp-action="Register" asp-route-nameTopic="Opinion">Opinion</a>
+                    <a class="p-2 text-muted" asp-controller="Account" asp-action="Register" asp-route-nameTopic="Science">Science</a>
+                    <a class="p-2 text-muted" asp-controller="Account" asp-action="Register" asp-route-nameTopic="Health">Health</a>
+                    <a class="p-2 text-muted" asp-controller="Account" asp-action="Register" asp-route-nameTopic="Style">Style</a>
+                    <a class="p-2 text-muted" asp-controller="Account" asp-action="Register" asp-route-nameTopic="Travel">Travel</a>
+                }
             </nav>
         </div>
     </div>
@@ -84,7 +110,6 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

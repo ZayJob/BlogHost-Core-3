@@ -13,5 +13,14 @@ namespace BlogHost.Data.Interfaces
         public IEnumerable<Publication> AllPost();
 
         public IEnumerable<Publication> AllThemsPost(int idTopic);
+
+        public IEnumerable<Publication> MyPost(User user);
+
+        public Publication GetPostDB(int id);
+
+        public void UpdatePost(Publication post);
+
+        public void DeletePost(Publication post);
+
     }
 }

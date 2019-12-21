@@ -16,7 +16,7 @@ namespace BlogHost.Data
         public AppDBContext(DbContextOptions<AppDBContext> options)
             : base(options)
         {
-            Database.EnsureCreated();
+            Database.EnsureCreated();   // создаем бд с новой схемой
         }
 
         protected override void OnModelCreating(ModelBuilder model)

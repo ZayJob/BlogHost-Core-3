@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -22,7 +23,7 @@ namespace BlogHost.ViewModels
 
         [Required]
         [Display(Name = "Фото")]
-        public string ImgUrlPublication { get; set; }
+        public IFormFile AvatarPost { get; set; }
 
         [Display(Name = "Любимое")]
         public bool isFavorite { get; set; }

@@ -10,5 +10,6 @@ namespace BlogHost.Data.Interfaces
     {
         public Topic GetTopicDB(string nameTopic);
         public int GetIDTopicDB(string nameTopic);
+        public string GetTopicName(int Id);
     }
 }

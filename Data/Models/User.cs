@@ -14,6 +14,8 @@ namespace BlogHost.Data.Models
         public string Gender { get; set; }
         public string Profession { get; set; }
         public string ImgUrl { get; set; }
+
+        public byte[] Avatar { get; set; }
         public DateTime DateRegistration { get; set; } = DateTime.Now;
         public List<Publication> Publications { get; set; }
     }

@@ -1,5 +1,6 @@
 ﻿using BlogHost.Data.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,13 +12,16 @@ namespace BlogHost.Initializer
     {
         public static async Task InitializeAsync(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
+            var builder = new ConfigurationBuilder().AddJsonFile("managerconfig.json");
+
+            IConfiguration ManagerConfiguration = builder.Build();
             //Admin
-            string adminEmail = "admin@admin.ru";
-            string adminPassword = "admin123";
+            string adminEmail = ManagerConfiguration["Admin:mail"];
+            string adminPassword = ManagerConfiguration["Admin:password"];
 
             //Moder
-            string moderEmail = "moder@moder.ru";
-            string moderPassword = "moder123";
+            string moderEmail = ManagerConfiguration["Moder:mail"];
+            string moderPassword = ManagerConfiguration["Moder:password"];
 
             if (await roleManager.FindByNameAsync("admin") == null)
             {
