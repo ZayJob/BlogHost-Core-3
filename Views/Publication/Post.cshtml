@@ -31,7 +31,8 @@
                     </tr>
                 </table>
                 <a class="btn btn-sm btn-primary" asp-controller="Comment" asp-action="CreateComment" asp-route-id="@Model.Id">Оставить комментарий</a>
-                <a class="btn btn-sm btn-primary" asp-controller="Comment" asp-action="AllComments" >Просмотреть комментарии</a>
+                <a class="btn btn-sm btn-primary" asp-controller="Comment" asp-action="AllComments">Просмотреть комментарии</a>
+
                 @if (User.IsInRole("admin") || User.IsInRole("moder"))
                 {
                     <a class="btn btn-sm btn-primary" asp-controller="Publication" asp-action="EditPost" asp-route-id="@Model.Id">Редактировать публикацию</a>

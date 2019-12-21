@@ -48,13 +48,55 @@ namespace BlogHost.Controllers
             };
 
             _comment.AddCommentDB(comment);
-            return RedirectToAction("AllPosts","Publication");
+            return RedirectToAction("Post","Publication", new { ID });
         }
 
         [HttpGet]
         public IActionResult AllComments()
         {
             return View(_comment.AllComments());
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditComment(int id)
+        {
+            Comment comment = _comment.GetCommentDB(id);
+            if (comment == null)
+            {
+                return NotFound();
+            }
+            CreateCommentViewModel model = new CreateCommentViewModel
+            {
+                CommentText = comment.CommentText
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditComment(CreateCommentViewModel model, int id)
+        {
+            if (ModelState.IsValid)
+            {
+                Comment comment = _comment.GetCommentDB(id);
+                if (comment != null)
+                {
+                    comment.CommentText = model.CommentText;
+
+                    _comment.UpdateComment(comment);
+                    return RedirectToAction("AllComments");
+                }
+            }
+            return View(model);
+        }
+
+        public async Task<ActionResult> Delete(int id)
+        {
+            Comment comment = _comment.GetCommentDB(id);
+            if (comment != null)
+            {
+                _comment.DeleteComment(comment);
+            }
+            return RedirectToAction("AllComments");
         }
     }
 }

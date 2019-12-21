@@ -206,3 +206,4 @@ A:\BlogHost\BlogHost\obj\Debug\netcoreapp3.0\Razor\Views\Publication\Post.cshtml
 A:\BlogHost\BlogHost\obj\Debug\netcoreapp3.0\Razor\Views\Publication\EditPost.cshtml.g.cs
 A:\BlogHost\BlogHost\obj\Debug\netcoreapp3.0\Razor\Views\Comment\CreateComment.cshtml.g.cs
 A:\BlogHost\BlogHost\obj\Debug\netcoreapp3.0\Razor\Views\Comment\AllComments.cshtml.g.cs
+A:\BlogHost\BlogHost\obj\Debug\netcoreapp3.0\Razor\Views\Comment\EditComment.cshtml.g.cs

@@ -9,8 +9,9 @@ namespace BlogHost.Data.Interfaces
     public interface IComment
     {
         public void AddCommentDB(Comment comment);
-
         public IEnumerable<Comment> AllComments();
-
+        public void DeleteComment(Comment comment);
+        public Comment GetCommentDB(int id);
+        public void UpdateComment(Comment comment);
     }
 }

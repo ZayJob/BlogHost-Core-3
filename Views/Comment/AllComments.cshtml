@@ -5,7 +5,22 @@
 }
 
 <h1>AllComments</h1>
-@foreach (var comment in Model)
-{
-    <p>@comment.CommentText</p>
-}
+<table class="table">
+    @foreach (var comment in Model)
+    {
+        <tr>
+            <td>@comment.LoginUser</td>
+            <td>@comment.DateComment</td>
+            <td>@comment.CommentText</td>
+
+            <td>
+                <form asp-controller="Comment" asp-action="Delete" asp-route-id="@comment.Id" method="post">
+                    <a class="btn btn-sm btn-primary" asp-controller="Comment" asp-action="EditComment" asp-route-id="@comment.Id">Редактировать комментарий</a>
+                    <button type="submit" class="btn btn-sm btn-danger">
+                        Удалить
+                    </button>
+                </form>
+            </td>
+        </tr>
+    }
+</table>

@@ -27,5 +27,21 @@ namespace BlogHost.Data.Repositories
             return _appDbContext.Comments.ToList();
         }
 
+        public void DeleteComment(Comment comment)
+        {
+            _appDbContext.Comments.Remove(comment);
+            _appDbContext.SaveChanges();
+        }
+        public Comment GetCommentDB(int id)
+        {
+            return _appDbContext.Comments.Where(x => x.Id == id).FirstOrDefault();
+        }
+
+        public void UpdateComment(Comment comment)
+        {
+            _appDbContext.Comments.Update(comment);
+            _appDbContext.SaveChanges();
+        }
+
     }
 }
