@@ -38,7 +38,6 @@ namespace BlogHost.Controllers
         [HttpPost]
         public IActionResult CreateComment(CreateCommentViewModel model)
         {
-
             Comment comment = new Comment
             {
                 CommentText = model.CommentText,

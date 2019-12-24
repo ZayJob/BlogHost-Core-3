@@ -32,7 +32,7 @@ namespace BlogHost
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; set;}
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -68,13 +68,6 @@ namespace BlogHost
 
             services.AddControllersWithViews();
 
-            services.AddAuthentication()
-            .AddGoogle(options =>
-            {
-                options.ClientId = Configuration["Authentication:Google:ClientId"];
-                options.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
-            });
-
             services.AddSignalR();
 
             services.AddHostedService<TimedHostedService>();
@@ -92,6 +85,8 @@ namespace BlogHost
 
             app.UseDeveloperExceptionPage();
             app.UseStatusCodePages();
+            app.UseStatusCodePagesWithReExecute("/error", "?code={0}");
+
             app.UseStaticFiles();
 
             app.UseHttpsRedirection();
@@ -105,6 +100,11 @@ namespace BlogHost
 
             loggerFactory.AddFile(Path.Combine(Directory.GetCurrentDirectory(), Configuration["FileNameLogger:Name"]));
             var logger = loggerFactory.CreateLogger("FileLogger");
+
+            app.Map("/error", ap => ap.Run(async context =>
+            {
+                await context.Response.WriteAsync($"Err: {context.Request.Query["code"]}");
+            }));
 
             app.Use((context, next) =>
             {

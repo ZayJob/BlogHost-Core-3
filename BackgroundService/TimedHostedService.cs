@@ -14,15 +14,16 @@ namespace BlogHost.BackgroundService
     {
         private readonly ILogger<TimedHostedService> _logger;
         private Timer _timer;
-        public IConfiguration EmailConfiguration { get; set; }
 
-        public TimedHostedService(ILogger<TimedHostedService> logger)
+        public TimedHostedService(ILogger<TimedHostedService> logger, IConfiguration configuration)
         {
             _logger = logger;
-            var builder = new ConfigurationBuilder().AddJsonFile("mailconfig.json");
 
-            EmailConfiguration = builder.Build();
+            Configuration = configuration;
         }
+
+        public IConfiguration Configuration { get; set; }
+
 
         public Task StartAsync(CancellationToken stoppingToken)
         {
@@ -37,7 +38,7 @@ namespace BlogHost.BackgroundService
         private async void DoWork(object state)
         {
             EmailService emailService = new EmailService();
-            await emailService.SendEmailAsync(EmailConfiguration["Email:mail"], "New posts", $"Вы давно не заходили проверьте нове посты, перейдя по ссылке:<a href='https://localhost:44307/'>link</a> ");
+            await emailService.SendEmailAsync(Configuration["Email:mail"], Configuration["Email:password"], "New posts", $"Вы давно не заходили проверьте нове посты, перейдя по ссылке:<a href='https://localhost:44307/'>link</a> ");
         }
 
         public Task StopAsync(CancellationToken stoppingToken)

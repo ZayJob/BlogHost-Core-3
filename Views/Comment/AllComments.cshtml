@@ -12,15 +12,17 @@
             <td>@comment.LoginUser</td>
             <td>@comment.DateComment</td>
             <td>@comment.CommentText</td>
-
-            <td>
-                <form asp-controller="Comment" asp-action="Delete" asp-route-id="@comment.Id" method="post">
-                    <a class="btn btn-sm btn-primary" asp-controller="Comment" asp-action="EditComment" asp-route-id="@comment.Id">Редактировать комментарий</a>
-                    <button type="submit" class="btn btn-sm btn-danger">
-                        Удалить
-                    </button>
-                </form>
-            </td>
+            @if (User.IsInRole("admin") || User.IsInRole("moder"))
+            {
+                <td>
+                    <form asp-controller="Comment" asp-action="Delete" asp-route-id="@comment.Id" method="post">
+                        <a class="btn btn-sm btn-primary" asp-controller="Comment" asp-action="EditComment" asp-route-id="@comment.Id">Редактировать комментарий</a>
+                        <button type="submit" class="btn btn-sm btn-danger">
+                            Удалить
+                        </button>
+                    </form>
+                </td>
+            }
         </tr>
     }
 </table>

@@ -42,10 +42,16 @@ namespace BlogHost.Controllers
             return View(post);
         }
 
-        [HttpGet]
-        public IActionResult AllPosts()
+        public IActionResult AllPosts(bool flag)
         {
-            return View(_publication.AllPost());
+            if (flag)
+            {
+                return View(_publication.AllPostIsFavorite());
+            }
+            else
+            {
+                return View(_publication.AllPost());
+            }
         }
 
         [HttpGet]

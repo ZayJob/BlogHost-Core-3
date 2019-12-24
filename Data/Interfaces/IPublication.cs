@@ -22,5 +22,7 @@ namespace BlogHost.Data.Interfaces
 
         public void DeletePost(Publication post);
 
+        public IEnumerable<Publication> AllPostIsFavorite();
+
     }
 }

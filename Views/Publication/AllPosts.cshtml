@@ -3,7 +3,15 @@
     ViewData["Title"] = "AllPosts";
 }
 
-<h1 class="text-center">AllPosts</h1>
+<div>
+    <h1 class="text-center">AllPosts</h1>
+
+    <a class="btn btn-sm btn-primary text-center" asp-controller="Publication" asp-action="AllPosts" asp-route-flag="@true">Показать любимые</a>
+    <br />
+</div><br />
+
+
+
 @foreach (var post in Model)
 {
     <div class="card bg-dark text-white">
@@ -14,5 +22,6 @@
             <p class="card-text">@post.DatePublication</p>
             <p class="card-text"><a class="text-white font-weight-bold" asp-controller="Publication" asp-action="Post" asp-route-id="@post.Id">Continue reading...</a></p>
         </div>
-    </div><br />
+    </div>
+    <br />
 }

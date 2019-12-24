@@ -10,11 +10,13 @@ namespace BlogHost.Initializer
 {
     public class RoleInitializer
     {
+        public static IConfiguration ManagerConfiguration { get; set; }
+
         public static async Task InitializeAsync(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
-            var builder = new ConfigurationBuilder().AddJsonFile("managerconfig.json");
+            var builder = new ConfigurationBuilder().AddJsonFile("conf.json");
 
-            IConfiguration ManagerConfiguration = builder.Build();
+            ManagerConfiguration = builder.Build();
             //Admin
             string adminEmail = ManagerConfiguration["Admin:mail"];
             string adminPassword = ManagerConfiguration["Admin:password"];

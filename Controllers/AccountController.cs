@@ -6,6 +6,7 @@ using BlogHost.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace BlogHost.Controllers
 {
@@ -13,11 +14,13 @@ namespace BlogHost.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        public IConfiguration _config;
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _config = configuration;
         }
 
         [HttpGet]
@@ -53,7 +56,7 @@ namespace BlogHost.Controllers
                         new { userId = user.Id, code },
                         protocol: HttpContext.Request.Scheme);
                     EmailService emailService = new EmailService();
-                    await emailService.SendEmailAsync(model.Email, "Confirm your account",
+                    await emailService.SendEmailAsync(model.Email, _config["Email:password"], "Confirm your account",
                         $"Подтвердите регистрацию, перейдя по ссылке: <a href='{callbackUrl}'>link</a>");
  
                     return Content("Для завершения регистрации проверьте электронную почту и перейдите по ссылке, указанной в письме");
@@ -162,7 +165,7 @@ namespace BlogHost.Controllers
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
                 var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code }, protocol: HttpContext.Request.Scheme);
                 EmailService emailService = new EmailService();
-                await emailService.SendEmailAsync(model.Email, "Reset Password",
+                await emailService.SendEmailAsync(model.Email, _config["Email:password"], "Reset Password",
                     $"Для сброса пароля пройдите по ссылке: <a href='{callbackUrl}'>link</a>");
                 return View("ForgotPasswordConfirmation");
             }

@@ -6,6 +6,7 @@ using BlogHost.Initializer;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -35,7 +36,6 @@ namespace BlogHost
                 {
                     var logger = services.GetRequiredService<ILogger<Program>>();
                     logger.LogError(ex, "An error occurred while seeding the database.");
-
                 }
             }
 
@@ -44,7 +44,14 @@ namespace BlogHost
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
+            .ConfigureAppConfiguration((hostingContext, config) =>
+            {
+                config.AddJsonFile(
+                    "mailconfig.json", optional: false, reloadOnChange: false);
+                config.AddJsonFile(
+                    "managerconfig.json", optional: false, reloadOnChange: false);
+            })
+            .UseStartup<Startup>()
             .ConfigureLogging(logging => logging.SetMinimumLevel(LogLevel.Trace))
             .Build();
     }

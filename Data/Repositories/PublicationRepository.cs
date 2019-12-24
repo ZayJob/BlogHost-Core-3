@@ -27,6 +27,12 @@ namespace BlogHost.Data.Repositories
             return _appDbContext.Publications.ToList();
         }
 
+        public IEnumerable<Publication> AllPostIsFavorite()
+        {
+            return _appDbContext.Publications.Where(x => x.isFavorite == true).ToList();
+        }
+
+
         public IEnumerable<Publication> AllThemsPost(int idTopic)
         {
             return _appDbContext.Publications.Where(x => x.TopicId == idTopic).ToList();
