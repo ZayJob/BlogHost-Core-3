@@ -339,4 +339,6 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 
-EmailService.cs
+mailconfig.json
+managerconfig.json
+appsettings.json
